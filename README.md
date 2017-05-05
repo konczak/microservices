@@ -13,6 +13,10 @@ prints last logs from container
 in folder with eureka call
 
 ~~~
+mvn clean package
+~~~
+
+~~~
 docker build -t "konczak-microservices/eureka:0.0.1" .
 ~~~
 
@@ -40,7 +44,7 @@ to find out what IP can be used to get into container
 to run our Eureka and allow access on port 1234 call:
 
 ~~~
-docker run -p 1234:8080 --name eureka konczak-microservices/eureka:0.0.1
+docker run -d -p 1234:8080 --name eureka konczak-microservices/eureka:0.0.1
 ~~~
 
 ## ElasticSearch (for logs and products)
@@ -79,3 +83,26 @@ docker run -d -e "ELASTICSEARCH_URL=http://192.168.99.100:9200" -e "xpack.securi
 
 to list indices GET 192.168.99.100:9200/_cat/indices?v
 
+## Zipkin
+In zipkin folder call
+
+~~~
+mvn clean package
+~~~
+
+~~~
+docker build -t "konczak-microservices/zipkin:0.0.1" .
+~~~
+
+~~~
+docker run -d -p 9411:9411 --name zipkin konczak-microservices/zipkin:0.0.1
+~~~
+
+## Mongo
+~~~
+docker pull mongo:3.4.4
+~~~
+
+~~~
+docker run -d -p 27017:27017 --name mongo mongo:3.4.4
+~~~
