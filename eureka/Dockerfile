@@ -6,4 +6,4 @@ ADD target/eureka-0.0.1.jar eureka.jar
 
 ENTRYPOINT ["java", "-jar", "/eureka.jar"]
 
-EXPOSE 8080
+EXPOSE 1234
