@@ -51,6 +51,10 @@ docker run -d -p 1234:8080 --name eureka konczak-microservices/eureka:0.0.1
 
 https://www.elastic.co/guide/en/elasticsearch/reference/5.2/docker.html
 
+GET 192.168.99.100:9200/_cat/indices?v
+	to lookup for list of indexes
+
+
 ~~~
 docker pull docker.elastic.co/elasticsearch/elasticsearch:5.2.1
 ~~~
@@ -121,4 +125,33 @@ docker build -t "konczak-microservices/user:0.0.1" .
 
 ~~~
 docker run -d -p 30000:8080 --name user konczak-microservices/user:0.0.1
+~~~
+
+## ELasticSearch for Java
+~~~
+docker pull elasticsearch:2.4.5
+~~~
+
+
+~~~
+docker run -d -p 9002:9200 -p 9003:9300 --name elasticsearch-product elasticsearch:2.4.5
+~~~
+
+## Product
+Spring boot 1.5 does not support yet ElasticSearch >=5.0.0
+
+~~~
+mvn clean package
+~~~
+
+~~~
+docker build -t "konczak-microservices/product:0.0.1" .
+~~~
+
+~~~
+docker run -d -p 30001:8080 --name product-1 konczak-microservices/product:0.0.1
+~~~
+
+~~~
+docker run -d -p 30002:8080 --name product-2 konczak-microservices/product:0.0.1
 ~~~
