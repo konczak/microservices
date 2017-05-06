@@ -151,6 +151,7 @@ docker run -d -p 9002:9200 -p 9003:9300 --hostname product-elasticsearch --netwo
 
 ## Product
 Spring boot 1.5 does not support yet ElasticSearch >=5.0.0
+In product folder call
 
 ~~~
 mvn clean package
@@ -179,6 +180,7 @@ docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres@123 -e POSTGRES_USER=po
 ~~~
 
 ## Order
+In order folder call
 
 ~~~
 mvn clean package
@@ -193,3 +195,18 @@ docker run -d -p 30003:8080 --hostname=order --network=microservices --name orde
 ~~~
 
 Hystrix dashboard is available under /hystrix to feed it with data specify /hystrix.stream
+
+## Gateway with Zuul
+In zuul folder call
+
+~~~
+mvn clean package
+~~~
+
+~~~
+docker build -t "konczak-microservices/zuul:0.0.1" .
+~~~
+
+~~~
+docker run -d -p 8765:8765 --hostname=zuul --network=microservices --name zuul konczak-microservices/zuul:0.0.1
+~~~

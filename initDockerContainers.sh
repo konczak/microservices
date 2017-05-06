@@ -36,3 +36,9 @@ docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres@123 -e POSTGRES_USER=po
 mvn clean package
 docker build -t "konczak-microservices/order:0.0.1" .
 docker run -d -p 30003:8080 --hostname=order --network=microservices --name order konczak-microservices/order:0.0.1
+
+# Zuul
+cd ../zuul/
+mvn clean package
+docker build -t "konczak-microservices/zuul:0.0.1" .
+docker run -d -p 8765:8765 --hostname=zuul --network=microservices --name zuul konczak-microservices/zuul:0.0.1
