@@ -38,6 +38,11 @@ docker ps -a -q --filter=ancestor=mikesplain/telnet | xargs -I {} docker rm {}
 ~~~
 will remove all unused docker containers based on specified image
 
+~~~
+docker rm -f CONTAINER_ID
+~~~
+stops and removes running container
+
 ## Todos
 
 ~~~
@@ -74,17 +79,15 @@ docker run -d -p 1234:1234 --hostname=eureka --network=microservices --name eure
 
 ## ElasticSearch (for logs and products)
 
-https://www.elastic.co/guide/en/elasticsearch/reference/5.2/docker.html
-
 GET 192.168.99.100:9200/_cat/indices?v
 	to lookup for list of indexes
 
 ~~~
-docker pull docker.elastic.co/elasticsearch/elasticsearch:5.2.1
+docker pull elasticsearch:2.4.5
 ~~~
 
 ~~~
-docker run -d -e ES_JAVA_OPTS="-Xms2g -Xmx2g" -e "http.host=0.0.0.0" -e "transport.host=127.0.0.1" -e "xpack.security.enabled=false" --hostname elasticsearch --net=microservices --name elasticsearch -p 9200:9200 -p 9300:9300 docker.elastic.co/elasticsearch/elasticsearch:5.2.1
+docker run -d -p 9200:9200 -p 9300:9300 --hostname=elasticsearch --network=microservices --name elasticsearch elasticsearch:2.4.5
 ~~~
 
 definitely JAVA_OPTS are required - alt extending memory for VM is an option.
@@ -92,11 +95,11 @@ definitely JAVA_OPTS are required - alt extending memory for VM is an option.
 ## Kibana
 
 ~~~
-docker pull docker.elastic.co/kibana/kibana:5.2.1
+docker pull kibana:4.6.4
 ~~~
 
 ~~~
-docker run -d -e "ELASTICSEARCH_URL=http://elasticsearch:9200" -e "xpack.security.enabled=false" -e "xpack.monitoring.ui.container.elasticsearch.enabled=false" --hostname kibana --net=microservices --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:5.2.1
+docker run -d -p 5601:5601 --hostname=kibana --network=microservices --name kibana kibana:4.6.4
 ~~~
 
 to list indices GET 192.168.99.100:9200/_cat/indices?v
@@ -210,3 +213,21 @@ docker build -t "konczak-microservices/zuul:0.0.1" .
 ~~~
 docker run -d -p 8765:8765 --hostname=zuul --network=microservices --name zuul konczak-microservices/zuul:0.0.1
 ~~~
+
+## Logstash
+
+~~~
+docker pull logstash:2.4.1
+~~~
+
+~~~
+docker run -d -p 5000:5000 --hostname=logstash --network=microservices --name logstash logstash:2.4.1 -e 'input { tcp { port => 5000 codec => "json" } } output { elasticsearch { hosts => ["elasticsearch"] index => "logstash-%{service}"} }'
+~~~
+
+a tip for Logback usage, doing:
+
+~~~
+<configuration debug="true">
+~~~
+
+will start logging what Logback does.
