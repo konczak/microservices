@@ -1,5 +1,13 @@
 # microservices
 
+I used following OS and tools setup (note it isn't mandatory to match it):
+Windows 7
+Docket Toolbox 17.03.0-ce
+VM RAM: 8GB of 16GB
+VM processors: 3 of 4
+
+Note: Bash scripts are more helpers then just free to go runners. It is quite possible that calling init all will fail due to significant memory usage of all containers starting in parallel. Personnaly I recommend starting them one by one or in small groups with delays between each other.
+
 ## Docker tips
 
 ~~~
